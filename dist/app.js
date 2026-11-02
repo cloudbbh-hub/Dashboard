@@ -1,5 +1,5 @@
 'use strict';
-const $=s=>document.querySelector(s),KEY='moa-team-week-v1',labels={todo:'예정',doing:'진행 중',done:'완료'};
+const $=s=>document.querySelector(s),KEY='fnancier-team-week-empty-v2',labels={todo:'예정',doing:'진행 중',done:'완료'};
 const team=['김준철','이정규','김채운','문소정'],rename={'김서연':'김준철','이도윤':'이정규','박지우':'김채운','최민준':'문소정'},ROLE_KEY='fnancier-team-roles-v1';
 let roles={};try{const value=JSON.parse(localStorage.getItem(ROLE_KEY)||'{}');if(value&&typeof value==='object'&&!Array.isArray(value))for(const [name,role] of Object.entries(value))if(typeof role==='string')roles[name]=role.slice(0,80)}catch{}
 const dateKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -8,10 +8,9 @@ const monday=d=>{const n=new Date(d);n.setHours(12,0,0,0);n.setDate(n.getDate()-
 const plus=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const valid=t=>t&&typeof t.id==='string'&&typeof t.title==='string'&&typeof t.owner==='string'&&typeof t.note==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(t.date)&&!Number.isNaN(localDate(t.date).getTime())&&/^([01]\d|2[0-3]):[0-5]\d$/.test(t.time)&&Object.hasOwn(labels,t.status);
-let week=monday(now),view='week',scope='week',editing=null,demo=true,storageError=false;
-function samples(){const seed=[['브랜드 방향성 회의',0,'10:00','김서연','done','핵심 메시지와 비주얼 방향을 함께 정해요.'],['레퍼런스 리서치',0,'14:00','이도윤','doing','팀에 공유할 레퍼런스 5개 모으기'],['와이어프레임 정리',1,'11:00','박지우','doing','주요 화면의 흐름을 정리합니다.'],['콘텐츠 초안 작성',1,'15:00','최민준','todo','소개 문구와 주요 콘텐츠 구성'],['중간 진행 상황 공유',2,'10:30','김서연','todo','각자 진행 상황과 도움이 필요한 내용을 공유해요.'],['디자인 시안 리뷰',3,'14:00','박지우','todo','1차 시안을 검토하고 의견을 모읍니다.'],['프로토타입 제작',3,'16:00','이도윤','doing','핵심 동작을 프로토타입에 연결해요.'],['주간 회고 & 다음 주 계획',4,'16:00','최민준','todo','좋았던 점과 개선할 점, 다음 주 우선순위 정하기']];return seed.map(([title,day,time,owner,status,note],i)=>({id:'sample-'+i,title,date:dateKey(plus(week,day)),time,owner,status,note}))}
+let week=monday(now),view='week',scope='week',editing=null,demo=false,storageError=false;
 let tasks;
-try{const stored=localStorage.getItem(KEY);if(stored){const parsed=JSON.parse(stored);if(!Array.isArray(parsed.tasks)||!parsed.tasks.every(valid))throw Error('data');tasks=parsed.tasks;demo=parsed.demo===true}else tasks=samples()}catch{tasks=[];demo=false;storageError=true}
+try{const stored=localStorage.getItem(KEY);if(stored){const parsed=JSON.parse(stored);if(!Array.isArray(parsed.tasks)||!parsed.tasks.every(valid))throw Error('data');tasks=parsed.tasks;demo=parsed.demo===true}else tasks=[]}catch{tasks=[];demo=false;storageError=true}
 // Keep previously saved schedules while migrating the original placeholder names.
 tasks=tasks.map(t=>({...t,owner:rename[t.owner]||t.owner}));
 function toast(message){$('#toast').textContent=message;$('#toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#toast').hidden=true,3200)}
