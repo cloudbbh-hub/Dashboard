@@ -1,1 +1,12 @@
-{"name":"moa-team-week-dashboard","version":"1.0.0","private":true,"type":"module","scripts":{"check":"node --check dist/app.js","dev":"node serve.mjs"}}
+{
+  "name": "fnancier-shared-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check dist/app.js",
+    "dev": "node serve.mjs",
+    "build": "node scripts/build-shared.mjs",
+    "test": "node --test tests/shared.test.mjs"
+  }
+}
