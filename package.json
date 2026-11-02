@@ -1,0 +1,1 @@
+{"name":"moa-team-week-dashboard","version":"1.0.0","private":true,"type":"module","scripts":{"check":"node --check dist/app.js","dev":"node serve.mjs"}}
