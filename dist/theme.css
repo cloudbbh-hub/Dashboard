@@ -1,0 +1,44 @@
+/* F낭시에 · requested base color #f9caca */
+:root{--pink:#f9caca;--green:#824451;--ink:#4e343b;--muted:#947b82;--line:#f0dfe2;--bg:#fff7f7}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline-color:#bd6e82}
+.sidebar,.topbar,.schedule,.panel,.stats article,.person-card{background:#fffdfd}
+.brandmark{background:var(--pink);color:var(--ink)}
+.brand-dot,.spark,h1 span,.stat-label .green-text{color:var(--green)}
+.workspace-icon{background:#fce9e9;color:#8d5661}
+.nav-caption,.workspace small,.side-footer small,.page-heading p,.section-sub,.topbar,.topbar .date-today{color:#937e84}
+.topbar span{color:#d6bbc3}.topbar b{color:#6f4a55}
+.nav-item{color:#987f86}.nav-item.active{background:var(--pink);color:#673541}
+.sidebar-note{background:#fff0f0}.sidebar-note p{color:#987d84}
+.avatar,.green,.person-heading>.avatar{background:#fce1e1;color:#864451}
+.primary{background:var(--pink);color:#60323e;border:1px solid #f0b5bd}
+.primary:hover{background:#f4b6be}
+.demo-banner{background:#fff0f0;border-color:#f1d6db;color:#9a7680}.demo-banner b{color:#85525e}
+.stat-label{color:#947982}.stat-label span{color:#c29ba5}.stat-label .amber{color:#b88970}
+.stats small{color:#a08991}.stats .focus-stat{background:#fce1e1;border-color:#f4cdd3}.focus-stat strong{color:#824451}
+.week-control button{background:#fffafa}
+.view-switch{background:#fff0f0}.view-switch button{color:#a0808b}.view-switch .selected{background:var(--pink);color:#673541;box-shadow:none}
+.filters select,.search{background:#fffdfd;color:#8e717b}.search input{background:transparent;color:var(--ink)}
+input::placeholder,textarea::placeholder{color:#ad949b}
+.day.today{background:#fff0f0}.day.weekend{background:#fffafa}.day-heading{color:#a48790}.day-heading b{color:#85535f}.today .day-heading b{background:var(--pink);color:#673541;font-weight:700}
+.task{background:#fff4f4;border-color:#f3dedf}.task.doing{background:#fce5e7;border-color:#efcbd2}.task.done{background:#f5e7ef;border-color:#e8cfdd}
+.task time,.task-bottom{color:#987782}.task:hover{box-shadow:0 3px 8px #6c304c12}
+.status{background:#f4dfe3;color:#895d6c}.doing .status{background:#f9caca;color:#713d4c}.done .status{background:#e8d3e1;color:#765470}
+.day-empty{color:#c4a6ae}.day-add{color:#d0aab4}.day-add:hover{border-color:#edb8c2;background:#ffe8ec;color:#824451}
+.legend{color:#a68892}.dot{background:#d4a5b1}.dot.doing{background:#d38297}.dot.done{background:#a6809e}
+.muted,.mini-label{color:#aa8d98}
+.member-row,.deadline-row{border-color:#f4e7eb}.member-name small,.member-count{color:#ad909b}
+.progress{background:#fae6e9}.progress span{background:#cf879a}
+.deadline-date{background:#fff0f1;color:#9c6575}.deadline-info small{color:#a98b96}.due-badge{background:#fce1e1;color:#97596c}
+.footer{color:#b496a0}.empty{color:#ae8d9a}
+.task-table th{background:#fff0f1;color:#946472}
+dialog{background:#fffdfd;box-shadow:0 25px 90px #70344f30}dialog::backdrop{background:#45253360}.icon-button{color:#a27c8b}
+form label{color:#936c7b}form input,form select,form textarea{background:#fff8f8;border-color:#efd6de}
+.secondary{background:#fce5e9;color:#885363}.delete,.form-error{color:#aa4c68}
+.toast{background:#7b4257;box-shadow:0 8px 30px #70344f20}
+.member-intro{color:#a07a89}.person-card{border-color:#efd6df}
+.person-position{color:#a17b8b}.position-button{color:#94566d;border-color:#efcbd7;background:#fffafa}
+.position-button:hover,.person-add:hover{background:#fce0e6}
+.person-stats{color:#a38590;border-color:#f4e4eb}.person-stats b{color:#91556d}
+.person-progress small{color:#a78090}.person-task{border-color:#f4e4eb}
+.person-task-date{color:#a1687f}.person-task-date small,.person-task-info small{color:#b290a0}.person-task:hover .person-task-info strong{color:#99536e}
+.person-empty{color:#b495a3}.person-add{border-color:#edc7d5;color:#9a6079;background:#fff8fa}.role-help{color:#af8c9d}
