@@ -1,6 +1,6 @@
 'use strict';
 const $=s=>document.querySelector(s),KEY='fnancier-team-week-empty-v2',labels={todo:'예정',doing:'진행 중',done:'완료'};
-const team=['김준철','이정규','김채운','문소정'],rename={'김서연':'김준철','이도윤':'이정규','박지우':'김채운','최민준':'문소정'},ROLE_KEY='fnancier-team-roles-v1';
+const team=['김준철','이정규','김채운','문소정','박현민'],rename={'김서연':'김준철','이도윤':'이정규','박지우':'김채운','최민준':'문소정'},ROLE_KEY='fnancier-team-roles-v1';
 let roles={};try{const value=JSON.parse(localStorage.getItem(ROLE_KEY)||'{}');if(value&&typeof value==='object'&&!Array.isArray(value))for(const [name,role] of Object.entries(value))if(typeof role==='string')roles[name]=role.slice(0,80)}catch{}
 const dateKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const localDate=s=>new Date(s+'T12:00:00'),now=new Date(),today=dateKey(now);
