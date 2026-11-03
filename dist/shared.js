@@ -1,4 +1,4 @@
-const API_BASE='https://team-week-board-1102.skp-k-2881.chatgpt.site';
+const API_BASE='https://fnancier-dashboard.vercel.app';
 let sharedCode='',sharedVersion=0,sharedReady=false,sharedSaving=false,sharedLoading=false,sharedConflict=false;
 try{sharedCode=sessionStorage.getItem('fnancier-edit-code')||''}catch{}
 const sharedOriginalTasks=structuredClone(tasks),sharedOriginalRoles=structuredClone(roles);

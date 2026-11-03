@@ -1,5 +1,6 @@
 import {createSupabaseStore} from './supabase-store.mjs';
 const allowedOrigin='https://cloudbbh-hub.github.io';
+const legacySiteOrigin='https://team-week-board-1102.skp-k-2881.chatgpt.site';
 const fail=(message,status=400)=>Response.json({error:message},{status});
 export function validState(s){
  if(!s||!Array.isArray(s.tasks)||s.tasks.length>1000||!s.roles||typeof s.roles!=='object'||Array.isArray(s.roles))return false;
@@ -10,7 +11,7 @@ export function validState(s){
 async function matches(a,b){const digest=async v=>new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)));const [x,y]=await Promise.all([digest(a),digest(b)]);let diff=0;for(let i=0;i<x.length;i++)diff|=x[i]^y[i];return diff===0}
 export async function handleApi(request,env){
  const origin=request.headers.get('Origin'),own=new URL(request.url).origin;
- if(origin&&origin!==allowedOrigin&&origin!==own)return fail('허용되지 않은 요청입니다.',403);
+ if(origin&&origin!==allowedOrigin&&origin!==legacySiteOrigin&&origin!==own)return fail('허용되지 않은 요청입니다.',403);
  const headers={'Cache-Control':'no-store','Vary':'Origin','Access-Control-Allow-Methods':'GET, PUT, OPTIONS','Access-Control-Allow-Headers':'Authorization, Content-Type','X-Content-Type-Options':'nosniff'};
  if(origin)headers['Access-Control-Allow-Origin']=origin;
  const send=async()=>{
@@ -19,6 +20,10 @@ export async function handleApi(request,env){
   if(!env.TEAM_EDIT_CODE)return fail('편집코드 설정이 필요합니다.',503);
   const code=request.headers.get('Authorization')?.replace(/^Bearer /,'')||'';
   if(!code||code.length>128||!await matches(code,env.TEAM_EDIT_CODE))return fail('편집코드를 확인해 주세요.',401);
+  if(env.STORAGE_BACKEND==='vercel'){
+   const upstream=await fetch(new Request('https://fnancier-dashboard.vercel.app/api/state',request));
+   return new Response(upstream.body,{status:upstream.status,headers:upstream.headers});
+  }
   const supabase=env.STORAGE_BACKEND==='supabase'?createSupabaseStore(env):null;
   if(!supabase&&!env.DB)return fail('공용 저장소를 연결하고 있습니다.',503);
   if(request.method==='GET'){
