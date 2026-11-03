@@ -1,3 +1,4 @@
+import {createSupabaseStore} from './supabase-store.mjs';
 const allowedOrigin='https://cloudbbh-hub.github.io';
 const fail=(message,status=400)=>Response.json({error:message},{status});
 export function validState(s){
@@ -18,17 +19,21 @@ export async function handleApi(request,env){
   if(!env.TEAM_EDIT_CODE)return fail('편집코드 설정이 필요합니다.',503);
   const code=request.headers.get('Authorization')?.replace(/^Bearer /,'')||'';
   if(!code||code.length>128||!await matches(code,env.TEAM_EDIT_CODE))return fail('편집코드를 확인해 주세요.',401);
-  if(!env.DB)return fail('공용 저장소를 연결하고 있습니다.',503);
+  const supabase=env.STORAGE_BACKEND==='supabase'?createSupabaseStore(env):null;
+  if(!supabase&&!env.DB)return fail('공용 저장소를 연결하고 있습니다.',503);
   if(request.method==='GET'){
+   if(supabase)return Response.json(await supabase.read());
    const row=await env.DB.prepare('SELECT version, payload, updated_at FROM team_state WHERE id = 1').first();
    if(!row)return fail('공용 저장소 초기화가 필요합니다.',503);
    return Response.json({version:row.version,state:JSON.parse(row.payload),updatedAt:row.updated_at});
   }
   if(request.method!=='PUT')return fail('허용되지 않은 요청입니다.',405);
+  if(env.STORAGE_BACKEND==='maintenance')return fail('Supabase로 저장소를 이전하고 있습니다. 입력 내용을 유지한 채 잠시 뒤 다시 저장해 주세요.',503);
   if(!(request.headers.get('Content-Type')||'').startsWith('application/json'))return fail('JSON 형식이 필요합니다.',415);
   const raw=await request.text();if(new TextEncoder().encode(raw).length>250000)return fail('일정 데이터가 너무 큽니다.',413);
   let body;try{body=JSON.parse(raw)}catch{return fail('잘못된 데이터 형식입니다.')}
   if(!Number.isSafeInteger(body.version)||body.version<0||!validState(body.state))return fail('일정 입력값을 확인해 주세요.');
+  if(supabase){try{return Response.json(await supabase.write(body.version,body.state))}catch(error){if(error.status===409)return fail('다른 팀원이 먼저 수정했습니다. 최신 내용을 불러온 뒤 다시 저장해 주세요.',409);throw error}}
   const updatedAt=new Date().toISOString(),payload=JSON.stringify(body.state);
   const result=await env.DB.prepare('UPDATE team_state SET payload = ?, version = version + 1, updated_at = ? WHERE id = 1 AND version = ?').bind(payload,updatedAt,body.version).run();
   if(result.meta.changes!==1)return fail('다른 팀원이 먼저 수정했습니다. 최신 내용을 불러온 뒤 다시 저장해 주세요.',409);

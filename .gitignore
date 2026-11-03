@@ -6,3 +6,5 @@ node_modules/
 !.env.example
 dist/server/
 dist/.openai/
+.vercel/
+public/

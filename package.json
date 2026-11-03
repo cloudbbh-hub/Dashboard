@@ -7,6 +7,7 @@
     "check": "node --check dist/app.js",
     "dev": "node serve.mjs",
     "build": "node scripts/build-shared.mjs",
-    "test": "node --test tests/shared.test.mjs"
+    "build:vercel": "node scripts/build-vercel.mjs",
+    "test": "node --test tests/shared.test.mjs tests/supabase.test.mjs tests/vercel.test.mjs"
   }
 }
